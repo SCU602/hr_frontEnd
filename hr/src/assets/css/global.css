@@ -1,0 +1,14 @@
+html,body,#app{
+    height: 100%;
+    margin:0;
+    padding: 0;
+}
+
+.el-breadcrumb{
+    margin-bottom: 15px;
+    font-size: 1%;
+}
+
+.el-card>{
+    box-shadow: 0 1px 1px rgba(38, 199, 105, 0.15);
+}
