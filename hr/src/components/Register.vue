@@ -48,7 +48,7 @@
 export default {
   data () {
     return {
-      isDisabled:false,
+      isDisabled: false,
       registerForm: {
         username: '',
         password: '',
