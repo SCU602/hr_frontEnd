@@ -6,10 +6,7 @@
             <div>
                 <span style="text-align:center;line-height:18px;" @click="backHome">人事管理系统</span>
             </div>
-          <el-button type="success" ref="sign" @click="sign">签到</el-button>
-          <el-button type="danger" ref="signUp" @click="signUp">签退</el-button>
-          <el-button type="success" ref="findOwnAll" @click="findOwnAll">查询个人所有</el-button>
-          <el-button type="success" ref="findAll" @click="findAll">查询所有人所有</el-button>
+          <el-button type="success" ref="sign" @click="sign" :disabled="isDisabled">{{signParam}}</el-button>
           <el-button type="info" @click="logout">退出</el-button>
         </el-header>
         <el-container>
@@ -19,7 +16,7 @@
                 <el-menu
                     :unique-opened="true" :router="true" :collapse="isCollapse" :collapse-transition="false"
                     class="el-menu-vertical-demo" :default-active="activePath"
-                    background-color="#285fa4"
+                    background-color="#7a96f7"
                     text-color="#fff"
                     active-text-color="#409eff">
                     <!-- 一级菜单 -->
@@ -51,11 +48,15 @@
 </template>
 <script>
 export default {
+  inject: ['reload'],
   data () {
     return {
       menuList: [],
       isCollapse: false,
-      activePath: ''
+      activePath: '',
+      signParam: '',
+      isDisabled: false,
+      signFlag: ''
     }
   },
   created () {
@@ -63,49 +64,46 @@ export default {
     this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
-    findOwnAll () {
-      this.$http.get('/user/getAllSigns')
-        .then(res => {
-          console.log(res)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
-    findAll () {
-      this.$http.get('/admin/getAllSigns')
-        .then(res => {
-          console.log(res)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
+
     sign () {
-      this.$http.post('/user/signIn')
-        .then(res => {
-          console.log(res)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
-    signUp () {
-      this.$http.post('/user/signUp')
-        .then(res => {
-          console.log(res)
-        })
-        .catch(error => {
-          console.log(error)
-        })
+      if (this.signFlag === 202) {
+        this.$http.post('/user/signIn')
+          .then(res => {
+            this.signParam = '签退'
+            this.signFlag = 200
+            this.reload()
+            console.log(res)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+      if (this.signFlag === 200) {
+        this.$http.post('/user/signUp')
+          .then(res => {
+            this.signParam = '已签退'
+            this.signFlag = 201
+            this.isDisabled = true
+            this.reload()
+            console.log(res)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
     },
     // 获取菜单
     getMenu () {
       this.$http.get('/user/getmenu')
         .then(res => {
           const data = res.data.data
-          // console.log(data)
+
           this.menuList = data
+          this.signFlag = res.data.sign
+          this.signParam = res.data.signNotes
+          if (res.data.sign === 201) {
+            this.isDisabled = true
+          }
         })
         .catch(error => {
           console.log(error)
@@ -136,7 +134,7 @@ export default {
     height: 100%;
 }
 .el-header{
-    background-color: #285fa8;
+    background-color: #8fb3fd;
     display: flex;
     justify-content: space-between;
     padding-left: 0;
@@ -152,7 +150,7 @@ export default {
     }
 }
 .el-aside{
-    background-color: #2f56ac;
+    background-color: #8fb3fd;
     .el-menu{
         border-right: none;
     }
@@ -161,7 +159,7 @@ export default {
     background-color:#fff;
 }
 .toggle-button{
-    background-color: #2f56ac;
+    background-color: #8fb3fd;
     color: #fff;
     font-size: 10px;
     line-height: 24px;
@@ -169,4 +167,5 @@ export default {
     letter-spacing: 0.2em;
     cursor: pointer;
 }
+
 </style>

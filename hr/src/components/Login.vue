@@ -80,7 +80,7 @@ export default {
     display:flex;
     justify-content:center;
     align-items:center;
-    //background:url(../assets/bgimg.gif)no-repeat fixed top;
+    background:url(../assets/bgimg.gif)no-repeat fixed top;
     background-color: #555;
     height: 100%;
     background-size: 100% 100%;

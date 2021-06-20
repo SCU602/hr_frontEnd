@@ -23,6 +23,8 @@ import PendingHolidayFlow from '../components/PendingHolidayFlow.vue'
 import UserInfo from '../components/UserInfo.vue'
 import ChangePassword from '../components/ChangePassword.vue'
 import Register from '../components/Register.vue'
+import Performance from '../components/Performance'
+import AllUserPerformance from '../components/AllUserPerformance'
 
 Vue.use(VueRouter)
 const routes = [
@@ -53,7 +55,9 @@ const routes = [
       { path: '/holiday_apply', component: HolidayApply },
       { path: '/pending_holiday_flow', component: PendingHolidayFlow },
       { path: '/user_info', component: UserInfo },
-      { path: '/change_password', component: ChangePassword }
+      { path: '/change_password', component: ChangePassword },
+      { path: '/performance', component: Performance },
+      { path: '/all_performance', component: AllUserPerformance }
     ]
   }
 ]
