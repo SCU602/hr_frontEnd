@@ -1,10 +1,30 @@
 <template>
     <div class="login_container">
-            <span class="title_span">人事管理システム</span>
+      <vue-particles
+        class="login-bg"
+        color="#dedede"
+        :particleOpacity="0.7"
+        :particlesNumber="60"
+        shapeType="circle"
+        :particleSize="4"
+        linesColor="#dedede"
+        :linesWidth="1"
+        :lineLinked="true"
+        :lineOpacity="0.5"
+        :linesDistance="150"
+        :moveSpeed="3"
+        :hoverEffect="true"
+        hoverMode="grab"
+        :clickEffect="true"
+        clickMode="push"
+      >
+      </vue-particles>
+      <div class="login_container1">
+            <span class="title_span">人事管理系统</span>
                 <el-form ref="loginFormRef" :model="loginForm"  label-width="" class="login_form" :rules="loginFormRules">
                     <el-form-item label="" prop="username">
                         <div class="search1">
-                        <el-input v-model="loginForm.username" prefix-icon="el-icon-user" label-width=120px></el-input>
+                        <el-input v-model="loginForm.username" prefix-icon="el-icon-user" ></el-input>
                         </div>
                     </el-form-item>
                     <el-form-item label="" prop="password">
@@ -15,17 +35,23 @@
                     <el-form-item class="btns">
                       <div class="button">
                         <router-link to="/register">
-                          <el-button type="primary">注册</el-button>
+                          <el-button round >注册</el-button>
                         </router-link>
-                        <el-button type="primary" @click="login">登录</el-button>
-                        <el-button type="info" @click="reset">重置</el-button>
+                        <el-button round @click="login">登录</el-button>
+                        <el-button type="info" round @click="reset">重置</el-button>
                       </div>
                     </el-form-item>
                 </el-form>
+      </div>
     </div>
 </template>
+
 <script>
 import Qs from 'qs'
+import Vue from 'vue'
+import VueParticles from 'vue-particles'
+Vue.use(VueParticles)
+
 export default {
   data () {
     return {
@@ -72,57 +98,74 @@ export default {
       this.$message.success('已重置登录框')
     }
   }
-
 }
 </script>
 <style lang="less" scoped>
 .login_container{
     display:flex;
+    flex-direction: column;
     justify-content:center;
     align-items:center;
-    background:url(../assets/bgimg.gif)no-repeat fixed top;
+    background:url(../assets/demo-1-bg.jpg)no-repeat fixed top;
     background-color: #555;
     height: 100%;
     background-size: 100% 100%;
+
+}
+#particles-js{
+  width: 100%;
+  height: calc(100%);
+  position: absolute;
+}
+.login_container1{
+  display:flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items:center;
+  background-color: rgba(255,255,255,0.1);
+  height: 500px;
+  width: 350px;
+  background-size: 100% 100%;
 }
 .title_span{
     position:relative;
-    display:block;
+    display:flex;
+    flex-direction: column;
+    color: floralwhite;
     font-size: 35px;
-    width: 350px;
-    font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
-    left: 28%;
+    font-family: "楷体",sans-serif;
     top: -10%;
-    transform: translate(-50%,-150%);
 }
 .search1{
-     display: block;
+     display: flex;
+     flex-direction: column;
      justify-content: center;
      align-items: center;
     .el-input {
-      width: 20%;
+      width: 100%;
     }
 
 }
 .search2{
-     display: block;
+     display: flex;
+     flex-direction: column;
      justify-content: center;
      align-items: center;
     .el-input {
-      width: 20%;
+      width: 100%;
     }
 }
-.button{
-   left: 28%;
-   top: -10%;
+.button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
 .btns{
     display:flex;
-    justify-content: flex-end;
-
-}
+    flex-direction: column;
 }
 .login_form{
-    bottom: 15%;
     width: 100%;
     padding: 10px 20px;
     box-sizing: border-box;

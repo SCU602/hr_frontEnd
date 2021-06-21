@@ -78,9 +78,9 @@ export default {
           if (res.data.state === 200) {
             this.userPerformanceList = res.data.data
             for (var i = 0; i < this.userPerformanceList.length; i++) {
-              if (this.userPerformanceList[i].daily_time > 6) {
+              if (this.userPerformanceList[i].daily_time > 8) {
                 this.userPerformanceList[i].if_overtime = '是'
-              } else if (this.userPerformanceList[i].daily_time <= 6) {
+              } else if (this.userPerformanceList[i].daily_time <= 8) {
                 this.userPerformanceList[i].if_overtime = '否'
               }
             }

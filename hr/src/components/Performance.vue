@@ -74,9 +74,9 @@ export default {
             console.log(res.data)
             this.performanceList = res.data.data
             for (var i = 0; i < this.performanceList.length; i++) {
-              if (this.performanceList[i].daily_time > 6) {
+              if (this.performanceList[i].daily_time > 8) {
                 this.performanceList[i].if_overtime = '是'
-              } else if (this.performanceList[i].daily_time <= 6) {
+              } else if (this.performanceList[i].daily_time <= 8) {
                 this.performanceList[i].if_overtime = '否'
               }
             }

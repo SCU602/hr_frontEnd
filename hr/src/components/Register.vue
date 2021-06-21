@@ -1,50 +1,74 @@
 <template>
     <div class="register_container">
-            <span class="title_span">人事管理システム</span>
+      <vue-particles
+        class="login-bg"
+        color="#dedede"
+        :particleOpacity="0.7"
+        :particlesNumber="60"
+        shapeType="circle"
+        :particleSize="4"
+        linesColor="#dedede"
+        :linesWidth="1"
+        :lineLinked="true"
+        :lineOpacity="0.5"
+        :linesDistance="150"
+        :moveSpeed="3"
+        :hoverEffect="true"
+        hoverMode="grab"
+        :clickEffect="true"
+        clickMode="push"
+      >
+      </vue-particles>
+      <div class="register_container1">
+            <span class="title_span">人事管理系统</span>
                 <el-form ref="registerFormRef" :model="registerForm"  label-width="" class="register_form" :rules="registerFormRules">
                     <el-form-item label="" prop="username">
                         <div class="search1">
-                        <el-input v-model="registerForm.username" prefix-icon="el-icon-user" label-width=120px></el-input>
+                        <el-input v-model="registerForm.username" prefix-icon="el-icon-user" label-width=120px placeholder="请输入用户名"></el-input>
                         </div>
                     </el-form-item>
                     <el-form-item label="" prop="password">
                       <div class="search2">
-                        <el-input v-model="registerForm.password" prefix-icon="el-icon-lock" type="password"></el-input>
+                        <el-input v-model="registerForm.password" prefix-icon="el-icon-lock" type="password" placeholder="请输入密码"></el-input>
                       </div>
                     </el-form-item>
                   <el-form-item label="" prop="repassword">
                     <div class="search2">
-                      <el-input v-model="registerForm.repassword" prefix-icon="el-icon-lock" type="password"></el-input>
+                      <el-input v-model="registerForm.repassword" prefix-icon="el-icon-unlock" type="password" placeholder="请再次输入密码"></el-input>
                     </div>
                   </el-form-item>
                   <el-form-item label="" prop="email">
                     <div class="search2">
-                      <el-input v-model="registerForm.email" prefix-icon="el-icon-lock"></el-input>
+                      <el-input v-model="registerForm.email" prefix-icon="el-icon-chat-dot-square" placeholder="请输入邮箱"></el-input>
                     </div>
                   </el-form-item>
                   <el-form-item class="btns">
-                    <div class="button">
+                    <div class="button1">
                       <el-button type="success" @click="sendVerifyCode" :disabled="isDisabled">发送验证码</el-button>
                     </div>
                   </el-form-item>
                   <el-form-item label="" prop="verifyCode">
                     <div class="search2">
-                      <el-input v-model="registerForm.verifyCode" prefix-icon="el-icon-lock"></el-input>
+                      <el-input v-model="registerForm.verifyCode" prefix-icon="el-icon-s-promotion" placeholder="请输入验证码"></el-input>
                     </div>
                   </el-form-item>
                     <el-form-item class="btns">
                       <div class="button">
-                        <el-button type="primary" @click="register">注册</el-button>
+                        <el-button round @click="register">注册</el-button>
                         <router-link to='/login'>
-                          <el-button type="primary">返回</el-button>
+                          <el-button round>返回</el-button>
                         </router-link>
-                        <el-button type="info" @click="reset">重置</el-button>
+                        <el-button type="info" round @click="reset">重置</el-button>
                       </div>
                     </el-form-item>
                 </el-form>
+      </div>
     </div>
 </template>
 <script>
+import Vue from 'vue'
+import VueParticles from 'vue-particles'
+Vue.use(VueParticles)
 export default {
   data () {
     return {
@@ -122,48 +146,72 @@ export default {
 <style lang="less" scoped>
 .register_container{
     display:flex;
+    flex-direction: column;
     justify-content:center;
     align-items:center;
-    //background:url(../assets/bgimg.gif)no-repeat fixed top;
+    background:url(../assets/demo-1-bg.jpg)no-repeat fixed top;
     height: 100%;
     background-size: 100% 100%;
 }
+#particles-js{
+  width: 100%;
+  height: calc(100%);
+  position: absolute;
+}
+.register_container1{
+  display:flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items:center;
+  background-color: rgba(255,255,255,0.1);
+  width: 350px;
+  height: 600px;
+  background-size: 100% 100%;
+}
 .title_span{
-    position:relative;
-    display:block;
-    font-size: 35px;
-    width: 350px;
-    font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
-    left: 28%;
-    top: -10%;
-    transform: translate(-50%,-150%);
+  position:relative;
+  display:flex;
+  flex-direction: column;
+  color: floralwhite;
+  font-size: 35px;
+  font-family: "楷体",sans-serif;
+  top: -4%;
 }
 .search1{
-     display: block;
-     justify-content: center;
-     align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
     .el-input {
-      width: 20%;
+      width: 100%;
     }
 }
 .search2{
-     display: block;
-     justify-content: center;
-     align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
     .el-input {
-      width: 20%;
+      width: 100%;
     }
 }
-.button{
-   left: 28%;
-   top: -10%;
-.btns{
-    display:flex;
-    justify-content: flex-end;
+.button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
+.button1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.btns{
+  display:flex;
+  flex-direction: column;
 }
 .register_form{
-    bottom: 15%;
     width: 100%;
     padding: 10px 20px;
     box-sizing: border-box;
