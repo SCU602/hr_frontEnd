@@ -58,14 +58,14 @@
     <el-dialog
       title="新增请假" :visible.sync="addHolidayDialogVisable" width="35%" @close="resetDialog">
       <el-form ref="addFormRef" :model="addHolidayForm" label-width="110px" :rules="addHolidayFormRules">
-        <el-form-item label="请假开始日期" prop="bdate">
-          <el-date-picker value-format="yyyy-MM-dd"
-                          v-model="addHolidayForm.bdate"  type="date" placeholder="选择日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="请假结束日期" prop="edate">
-          <el-date-picker value-format="yyyy-MM-dd"
-                          v-model="addHolidayForm.edate"  type="date" placeholder="选择日期">
+        <el-form-item label="请假起止日期" prop="dateRange">
+          <el-date-picker
+            v-model="addHolidayForm.dateRange"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :picker-options="datePickerOptions">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="请假原因" prop="notes">
@@ -83,14 +83,14 @@
     <el-dialog
       title="修改请假" :visible.sync="modifyHolidayDialogVisable" width="35%" @close="resetModifyDialog">
       <el-form ref="modifyFormRef" :model="modifyHolidayForm" label-width="110px" :rules="modifyHolidayFormRules">
-        <el-form-item label="请假开始日期" prop="bdate">
-          <el-date-picker value-format="yyyy-MM-dd"
-                          v-model="modifyHolidayForm.bdate"  type="date" placeholder="选择日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="请假结束日期" prop="edate">
-          <el-date-picker value-format="yyyy-MM-dd"
-                          v-model="modifyHolidayForm.edate"  type="date" placeholder="选择日期">
+       <el-form-item label="请假起止日期" prop="dateRange">
+          <el-date-picker
+            v-model="addHolidayForm.dateRange"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :picker-options="datePickerOptions">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="请假原因" prop="notes">
@@ -112,30 +112,37 @@ export default {
     return {
       holidayList: [],
       addHolidayDialogVisable: false,
+      datePickerOptions: {
+        disabledDate: (time) => {
+          const nowDate = new Date()
+          const oneDay = 1000 * 60 * 60 * 24
+          const oneYearLater = new Date(nowDate.getTime() + (oneDay * 365))
+          return time.getTime() < nowDate || time.getTime() > oneYearLater
+        }
+      },
       addHolidayForm: {
-        bdate: '',
-        edate: '',
+        dateRange: '',
         apply_date: '',
         date_num: '',
-        notes: ''
+        notes: '',
+        bdate: '',
+        edate: ''
       },
       addHolidayFormRules: {
-        bdate: [{ required: true, message: '开始日期不能为空', trigger: 'blur' }],
-        edate: [{ required: true, message: '结束日期不能为空', trigger: 'blur' }],
+        dateRange: [{ required: true, message: '日期不能为空', trigger: 'blur' }],
         notes: [{ required: true, message: '请假理由不能为空', trigger: 'blur' }]
       },
       modifyHolidayDialogVisable: false,
       modifyHolidayForm: {
         pre_id: '',
-        bdate: '',
-        edate: '',
         apply_date: '',
         date_num: '',
-        notes: ''
+        notes: '',
+        bdate: '',
+        edate: ''
       },
       modifyHolidayFormRules: {
-        bdate: [{ required: true, message: '开始日期不能为空', trigger: 'blur' }],
-        edate: [{ required: true, message: '结束日期不能为空', trigger: 'blur' }],
+        dateRange: [{ required: true, message: '开始日期不能为空', trigger: 'blur' }],
         notes: [{ required: true, message: '请假理由不能为空', trigger: 'blur' }]
       }
     }
@@ -173,6 +180,9 @@ export default {
       this.$refs.addFormRef.validate(valid => {
         console.log(this.addHolidayForm)
         if (valid === true) {
+          this.addHolidayForm.bdate = this.addHolidayForm.dateRange[0]
+          this.addHolidayForm.edate = this.addHolidayForm.dateRange[1]
+          console.log(this.addHolidayForm)
           // 访问后端接口，发起请假流程
           this.$http.post('/user/add_holiday', this.addHolidayForm)
             .then(res => {
@@ -209,6 +219,8 @@ export default {
       // 先进行表单验证
       this.$refs.modifyFormRef.validate(valid => {
         if (valid === true) {
+          this.modifyHolidayForm.bdate = this.modifyHolidayForm.dateRange[0]
+          this.modifyHolidayForm.edate = this.modifyHolidayForm.dateRange[1]
           this.$http.post('/user/modify_user_holiday', this.modifyHolidayForm)
             .then(res => {
               if (res.data.state === 200) {

@@ -64,7 +64,6 @@ export default {
     this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
-
     sign () {
       if (this.signFlag === 202) {
         this.$http.post('/user/signIn')
@@ -97,7 +96,6 @@ export default {
       this.$http.get('/user/getmenu')
         .then(res => {
           const data = res.data.data
-
           this.menuList = data
           this.signFlag = res.data.sign
           this.signParam = res.data.signNotes
@@ -167,5 +165,4 @@ export default {
     letter-spacing: 0.2em;
     cursor: pointer;
 }
-
 </style>
