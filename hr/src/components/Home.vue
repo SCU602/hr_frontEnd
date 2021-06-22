@@ -91,7 +91,6 @@ export default {
       this.gettime = yy + '-' + mm + '-' + dd + ' ' + hh + ':' + mf + ':' + ss
       console.log(this.gettime)
     },
-
     sign () {
       if (this.signFlag === 202) {
         this.getCurrentTime()
@@ -208,5 +207,4 @@ export default {
     letter-spacing: 0.2em;
     cursor: pointer;
 }
-
 </style>
